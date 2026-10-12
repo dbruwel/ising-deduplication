@@ -1,5 +1,7 @@
 # Ising Deduplication
 
+> **A note on how this was made**: I wrote the original code and analysis in 2025. In October 2026 I came back to it to clean up and, with help from AI tools, restructured it into a package, added tests, docstrings and this write-up, so that anyone reading it can follow what I was thinking. That's why a large part of the repo arrives in one large commit. The ideas, original code and logic, results, and any mistakes are mine.
+
 When advertising across several channels, what you usually know is how many people watch each channel and how many watch each *pair* of channels. What you don't know is how many watch any particular *combination*, and that's what reach depends on. Someone who watches three of the channels you're on should only be counted once. This project fills in the missing structure with the maximum entropy distribution that matches the pairwise numbers (an Ising model), then uses it to estimate deduplicated reach and to split a budget of impressions across channels.
 
 **Summary:** fitting the model is straightforward when there are few enough channels to enumerate every combination (up to about 15-20, with a smaller learning rate past a handful). Past that it falls back to an MCMC estimate, which works but is noisy and slow. On the three channel example, using the overlap instead of assuming independence changes the estimated reach by up to a percentage point and changes the best split noticeably, but the reach that split gets is only slightly better (at most 0.4pp here), because reach is flat near the optimum.
